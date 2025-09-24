@@ -1,13 +1,13 @@
 // components/Newsletter.jsx
 import React, { useState } from "react";
 
-const Newsletter = () => {
+const NewsLetter = () => {
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle newsletter signup
-    console.log("Newsletter signup:", email);
+    console.log("NewsLetter signup:", email);
     setEmail("");
   };
 
@@ -51,4 +51,4 @@ const Newsletter = () => {
   );
 };
 
-export default Newsletter;
+export default NewsLetter;
