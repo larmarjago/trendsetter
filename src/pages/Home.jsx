@@ -2,7 +2,7 @@ import React from 'react'
 import Nav from '../Navigations/Nav'
 import Categories from './Categories'
 import Footer from '../Navigations/Footer'
-import Newsletter from '../Navigations/NewsLetter'
+import NewsLetter from '../Navigations/NewsLetter'
 import Hero from '../Navigations/Hero'
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
         <Categories />
           </div>
           <div>
-            <Newsletter/>
+            <NewsLetter/>
           </div>
           <div>
              <Footer /> 
