@@ -1,16 +1,14 @@
 // components/CartDrawer.jsx
 import React from "react";
 import { FiX, FiMinus, FiPlus, FiTrash2 } from "react-icons/fi";
+import { useCart } from "../data/CartContext.jsx"; // ✅ Import the cart context
 
-export default function CartDrawer({
-  isOpen,
-  cart,
-  onClose,
-  increaseQty,
-  decreaseQty,
-  removeFromCart,
-  checkout,
-}) {
+export default function CartDrawer({ isOpen, onClose }) {
+  // ✅ Use cart context to get cart state and functions
+  const { cart, increaseQty, decreaseQty, removeFromCart, checkout } =
+    useCart();
+
+  // ✅ Calculate total safely
   const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
 
   return (
@@ -40,6 +38,7 @@ export default function CartDrawer({
         {/* Cart Items */}
         <div className="flex-1 overflow-y-auto">
           {cart.length === 0 ? (
+            // 👉 Empty Cart
             <div className="flex flex-col items-center justify-center h-full text-center p-8">
               <div className="text-6xl mb-4 text-orange-200">🛒</div>
               <p className="text-gray-500 text-lg mb-2">Your cart is empty</p>
@@ -48,6 +47,7 @@ export default function CartDrawer({
               </p>
             </div>
           ) : (
+            // 👉 Show Items
             <div className="p-4 space-y-4">
               {cart.map((item) => (
                 <div
@@ -67,6 +67,7 @@ export default function CartDrawer({
                       ₦{item.price.toLocaleString()}
                     </p>
                     <div className="flex items-center justify-between mt-2">
+                      {/* Qty Controls */}
                       <div className="flex items-center gap-2">
                         <button
                           onClick={() => decreaseQty(item.id)}
@@ -84,6 +85,7 @@ export default function CartDrawer({
                           <FiPlus className="w-3 h-3" />
                         </button>
                       </div>
+                      {/* Remove Button */}
                       <button
                         onClick={() => removeFromCart(item.id)}
                         className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors duration-200"

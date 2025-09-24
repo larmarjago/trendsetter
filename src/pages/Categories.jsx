@@ -1,24 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FiShoppingBag, FiArrowLeft } from "react-icons/fi";
-import CartDrawer from "./CartDrawer";
-import FilterBar from "./Filter";
-import Search from "./Search";
-import ProductCard from "./Product";
+import CartDrawer from "../Navigations/CartDrawer.jsx";
+import FilterBar from "../Navigations/Filter.jsx";
+import Search from "../Navigations/Search.jsx";
+import ProductCard from "../Navigations/Product.jsx";
+import { useCart } from "../data/CartContext.jsx"; // ✅ Use global cart
 
 // ✅ Import Data
-import CategoriesData from "../data/categories";
-import ProductsData from "../data/products";
+import CategoriesData from "../data/categories.js";
+import ProductsData from "../data/products.js";
 
-// ✅ Destructure Data
 const categories = CategoriesData;
 let products = ProductsData;
 
-// ✅ Import Logo
-import image1 from "../assets/12.png";
-
 export default function Categories() {
   const [activeCategory, setActiveCategory] = useState(null);
-  const [cart, setCart] = useState([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [filters, setFilters] = useState({
     size: "All",
@@ -26,54 +22,18 @@ export default function Categories() {
     price: "All",
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [prevCartLength, setPrevCartLength] = useState(0);
 
-  const whatsappNumber = "2348025212586";
+  // ✅ Global Cart
+  const { cart, addToCart } = useCart();
 
-  // ✅ Cart Functions
-  const addToCart = (product) => {
-    setCart((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
-      if (existing) {
-        return prev.map((item) =>
-          item.id === product.id ? { ...item, qty: item.qty + 1 } : item
-        );
-      }
-      return [...prev, { ...product, qty: 1 }];
-    });
-    setIsCartOpen(true);
-  };
-
-  const removeFromCart = (id) =>
-    setCart((prev) => prev.filter((item) => item.id !== id));
-
-  const increaseQty = (id) =>
-    setCart((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, qty: item.qty + 1 } : item
-      )
-    );
-
-  const decreaseQty = (id) =>
-    setCart((prev) =>
-      prev
-        .map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item))
-        .filter((item) => item.qty > 0)
-    );
-
-  const checkout = () => {
-    if (cart.length === 0) return alert("Cart is empty!");
-
-    const items = cart
-      .map(
-        (i) => `${i.qty}x ${i.title} = ₦${(i.price * i.qty).toLocaleString()}`
-      )
-      .join("%0A");
-
-    const total = cart.reduce((sum, i) => sum + i.price * i.qty, 0);
-
-    const message = `Hi Ayo, I want to order:%0A${items}%0A%0ATotal: ₦${total.toLocaleString()}`;
-    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
-  };
+  // ✅ Automatically open cart when an item is added
+  useEffect(() => {
+    if (cart.length > prevCartLength) {
+      setIsCartOpen(true);
+    }
+    setPrevCartLength(cart.length);
+  }, [cart.length, prevCartLength]);
 
   // ✅ Search & Filter Logic
   const searchedProducts = products.filter((prod) =>
@@ -141,7 +101,7 @@ export default function Categories() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent flex flex-col items-center justify-end pb-6">
                     <div className="text-white text-4xl mb-3 transform group-hover:scale-110 transition-transform">
-                      {<cat.icon />}
+                      {cat.icon}
                     </div>
                     <span className="text-white text-xl font-semibold mb-2">
                       {cat.name}
@@ -207,15 +167,7 @@ export default function Categories() {
       )}
 
       {/* ✅ Cart Drawer */}
-      <CartDrawer
-        isOpen={isCartOpen}
-        cart={cart}
-        onClose={() => setIsCartOpen(false)}
-        increaseQty={increaseQty}
-        decreaseQty={decreaseQty}
-        removeFromCart={removeFromCart}
-        checkout={checkout}
-      />
+      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </section>
   );
 }

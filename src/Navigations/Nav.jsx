@@ -98,13 +98,7 @@ const Nav = () => {
           >
             Shop
           </a>
-          <a
-            href="#lookbook"
-            className="block py-2 text-gray-700 hover:text-orange-600 transition-colors font-medium"
-            onClick={() => setOpen(false)}
-          >
-            Lookbook
-          </a>
+    
           <a
             href="#contact"
             className="block py-2 text-gray-700 hover:text-orange-600 transition-colors font-medium"

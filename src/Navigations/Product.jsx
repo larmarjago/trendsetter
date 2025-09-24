@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { FiShoppingCart, FiHeart } from "react-icons/fi";
+import { Link } from "react-router-dom";
+import { useCart } from "../data/CartContext.jsx";
 
-export default function ProductCard({ product, addToCart }) {
+export default function ProductCard({ product }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+
+  // ✅ Use global cart function
+  const { addToCart } = useCart();
 
   return (
     <div
@@ -13,11 +18,14 @@ export default function ProductCard({ product, addToCart }) {
     >
       {/* Product Image with Overlay */}
       <div className="relative overflow-hidden rounded-t-lg">
-        <img
-          src={product.img}
-          alt={product.title}
-          className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
-        />
+        {/* ✅ Clickable image that goes to Product Details */}
+        <Link to={`/product/${product.id}`}>
+          <img
+            src={product.img}
+            alt={product.title}
+            className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </Link>
 
         {/* Quick Actions Overlay */}
         <div
@@ -40,9 +48,12 @@ export default function ProductCard({ product, addToCart }) {
 
       {/* Product Details */}
       <div className="p-4">
-        <h3 className="font-medium text-gray-900 mb-1 line-clamp-1">
-          {product.title}
-        </h3>
+        {/* ✅ Title links to product details */}
+        <Link to={`/product/${product.id}`}>
+          <h3 className="font-medium text-gray-900 mb-1 line-clamp-1 hover:text-orange-600 transition">
+            {product.title}
+          </h3>
+        </Link>
 
         <div className="flex items-center justify-between mb-3">
           <span className="text-lg font-semibold text-orange-600">
