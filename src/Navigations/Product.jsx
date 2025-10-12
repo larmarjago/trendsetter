@@ -1,19 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiShoppingCart, FiHeart } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useCart } from "../data/CartContext.jsx";
+import useGoogleSheet from "../data/useGoogleSheet.js";
+import papa from "papaparse";
+
+
 
 export default function ProductCard({ product }) {
   const [isHovered, setIsHovered] = useState(false);
+  
+    const { error, loading, rows } = useGoogleSheet(
+      "https://docs.google.com/spreadsheets/d/e/2PACX-1vTpvv2L2-Q_jSBRIW8-d8G9VHpTFKqnxUC3_0AjS45ADQO6c2osRI_ybnhot_I1iAU2rwznEOB9GGZg/pub?gid=0&single=true&output=csv"
+    );
   const [isLiked, setIsLiked] = useState(false);
+console.log(rows);
 
   // ✅ Use global cart function
-  const { addToCart } = useCart();
+    const { addToCart } = useCart();
+    
+    
 
   return (
     <div
       className="group bg-white border border-gray-100 rounded-lg transition-all duration-300 hover:shadow-lg"
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={() => setIsHovered(true)} 
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Product Image with Overlay */}

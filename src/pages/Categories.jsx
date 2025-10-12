@@ -5,15 +5,27 @@ import FilterBar from "../Navigations/Filter.jsx";
 import Search from "../Navigations/Search.jsx";
 import ProductCard from "../Navigations/Product.jsx";
 import { useCart } from "../data/CartContext.jsx"; // ✅ Use global cart
-
+import papa from "papaparse";
 // ✅ Import Data
 import CategoriesData from "../data/categories.js";
 import ProductsData from "../data/products.js";
+import useGoogleSheet from "../data/useGoogleSheet.js";
+import { useNavigate } from "react-router-dom";
+
 
 const categories = CategoriesData;
 let products = ProductsData;
 
 export default function Categories() {
+
+
+  const { error, loading, rows } = useGoogleSheet(
+    "https://docs.google.com/spreadsheets/d/e/2PACX-1vTpvv2L2-Q_jSBRIW8-d8G9VHpTFKqnxUC3_0AjS45ADQO6c2osRI_ybnhot_I1iAU2rwznEOB9GGZg/pub?gid=827854688&single=true&output=csv"
+  );
+
+  const navigate = useNavigate();
+  console.log(rows, error, loading);
+  
   const [activeCategory, setActiveCategory] = useState(null);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [filters, setFilters] = useState({
@@ -23,7 +35,7 @@ export default function Categories() {
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [prevCartLength, setPrevCartLength] = useState(0);
-
+ 
   // ✅ Global Cart
   const { cart, addToCart } = useCart();
 
@@ -36,13 +48,14 @@ export default function Categories() {
   }, [cart.length, prevCartLength]);
 
   // ✅ Search & Filter Logic
-  const searchedProducts = products.filter((prod) =>
-    prod.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const searchedProducts = products.filter((product) =>
+    product.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const displayedProducts = activeCategory
     ? searchedProducts.filter((prod) => prod.category === activeCategory)
     : searchedProducts;
+  
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 bg-white min-h-screen">
@@ -50,7 +63,7 @@ export default function Categories() {
       <header className="flex items-center justify-between mb-12 relative">
         <div className="text-center flex-1">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">
-            🧢 Trendsetters Store
+            Trendsetters Store
           </h1>
           <p className="text-gray-600 mt-2">
             Curated Fashion for the Modern You
@@ -87,11 +100,13 @@ export default function Categories() {
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {categories.map((cat) => (
+            {rows.map((cat) => (
               <div
                 key={cat.id}
                 className="relative group cursor-pointer transform hover:scale-105 transition-all duration-300"
-                onClick={() => setActiveCategory(cat.id)}
+                onClick={() => {
+                  navigate(`/category/${cat.category.toLowerCase()}`);
+                }}
               >
                 <div className="relative overflow-hidden rounded-2xl shadow-lg border-2 border-orange-100">
                   <img
@@ -144,10 +159,10 @@ export default function Categories() {
           {/* ✅ Products Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {displayedProducts.length > 0 ? (
-              displayedProducts.map((prod) => (
+              displayedProducts.map((product) => (
                 <ProductCard
-                  key={prod.id}
-                  product={prod}
+                  key={product.id}
+                  product={product}
                   addToCart={addToCart}
                 />
               ))

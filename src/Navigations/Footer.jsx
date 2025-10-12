@@ -1,6 +1,7 @@
 // components/Footer.jsx
 import React from "react";
 import { FaInstagram, FaTiktok } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -36,9 +37,12 @@ const Footer = () => {
             <h4 className="font-semibold mb-4 text-orange-400">Shop</h4>
             <ul className="space-y-2 text-gray-300">
               <li>
-                <a href="#" className="hover:text-orange-400 transition-colors">
+                <Link
+                  className="hover:text-orange-400 transition-colors"
+                  to="/category/:id"
+                >
                   New Arrivals
-                </a>
+                </Link>
               </li>
               <li>
                 <a href="#" className="hover:text-orange-400 transition-colors">
