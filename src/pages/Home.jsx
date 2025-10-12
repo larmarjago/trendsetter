@@ -2,7 +2,7 @@
 import Nav from '../Navigations/Nav'
 import Categories from './Categories'
 import Footer from '../Navigations/Footer'
-import NewsLetter from '../Navigations/NewsLetter'
+import NewsLetter from '../Navigations/NewsLetterComp'
 import Hero from '../Navigations/Hero'
 
 const Home = () => {
