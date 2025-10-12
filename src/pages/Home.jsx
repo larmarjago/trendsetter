@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Nav from '../Navigations/Nav'
 import Categories from './Categories'
 import Footer from '../Navigations/Footer'
