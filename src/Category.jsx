@@ -7,6 +7,7 @@ import ProductCard from "./Navigations/Product.jsx";
 import ProductsData from "./data/products.js"; // Or fetch from Google Sheet
 import { useCart } from "./data/CartContext.jsx";
 import useGoogleSheet from "./data/useGoogleSheet.js";
+import CartDrawer from "./Navigations/CartDrawer.jsx";
 
 export default function Category() {
   const { id } = useParams(); // 👈 Get category id from URL
@@ -57,7 +58,9 @@ console.log(products);
             <p className="text-xl text-gray-600">No products found.</p>
           </div>
         )}
+
       </div>
+
     </section>
   );
 }

@@ -66,7 +66,7 @@ const Nav = () => {
         {/* Social Icons */}
         <div className="flex items-center gap-4">
           <a
-            href="https://instagram.com"
+            href="https://www.instagram.com/trendsetters_lifestyle_?igsh=MWlpeW0wNzJ6ZGZhOA%3D%3D&utm_source=qr"
             target="_blank"
             rel="noreferrer"
             className="p-2 text-gray-600 hover:text-orange-600 transition-colors"
@@ -74,7 +74,7 @@ const Nav = () => {
             <FaInstagram size={18} />
           </a>
           <a
-            href="https://tiktok.com"
+            href="www.tiktok.com/@trendsetterslifestyle"
             target="_blank"
             rel="noreferrer"
             className="p-2 text-gray-600 hover:text-orange-600 transition-colors"
@@ -98,7 +98,7 @@ const Nav = () => {
           >
             Shop
           </a>
-    
+
           <a
             href="#contact"
             className="block py-2 text-gray-700 hover:text-orange-600 transition-colors font-medium"
