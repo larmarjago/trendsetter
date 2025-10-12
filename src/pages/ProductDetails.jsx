@@ -3,6 +3,7 @@ import ProductsData from "../data/products";
 import { useState, useEffect } from "react";
 import { FiShoppingCart } from "react-icons/fi";
 import { useCart } from "../data/CartContext.jsx";
+import useGoogleSheet from "../data/useGoogleSheet.js";
 
 export default function ProductDetails() {
   const { addToCart, cart } = useCart(); // ✅ Use global cart
@@ -10,8 +11,15 @@ export default function ProductDetails() {
   const navigate = useNavigate();
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [prevCartLength, setPrevCartLength] = useState(0);
+   const {
+     error,
+     loading,
+     rows = [],
+   } = useGoogleSheet(
+     "https://docs.google.com/spreadsheets/d/e/2PACX-1vTpvv2L2-Q_jSBRIW8-d8G9VHpTFKqnxUC3_0AjS45ADQO6c2osRI_ybnhot_I1iAU2rwznEOB9GGZg/pub?gid=0&single=true&output=csv"
+   );
 
-  const product = ProductsData.find((p) => p.id.toString() === id);
+  const product = rows.find((p) => p.id.toString() === id);
 
   // ✅ Automatically open cart when an item is added
   useEffect(() => {
